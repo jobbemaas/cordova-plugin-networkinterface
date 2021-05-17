@@ -125,10 +125,10 @@ public class networkinterface extends CordovaPlugin {
 
 		String subnet = "";
 		try {
-			//InetAddress inetAddress = InetAddress.getByName(ipString);
+			InetAddress inetAddress = InetAddress.getByName(ipString);
 			//subnet = getIPv4Subnet(inetAddress);
 			
-			InetAddress inetAddress = InetAddress.getLocalHost();
+			//InetAddress inetAddress = InetAddress.getLocalHost();
 			subnet = inetAddress.getHostName();
 		} catch (Exception e) {
 		}
