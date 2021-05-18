@@ -95,7 +95,7 @@ public class networkinterface extends CordovaPlugin {
 
 	private boolean extractIpInfo(String[] ipInfo, CallbackContext callbackContext) throws JSONException {
 		String ip = ipInfo[0];
-		String subnet = ipInfo[1];
+		String hostname = ipInfo[1];
 		String fail = "0.0.0.0";
 		if (ip == null || ip.equals(fail)) {
 			callbackContext.error("No valid IP address identified");
@@ -104,7 +104,7 @@ public class networkinterface extends CordovaPlugin {
 
 		Map<String,String> ipInformation = new HashMap<String,String>();
 		ipInformation.put("ip", ip);
-		ipInformation.put("subnet", subnet);
+		ipInformation.put("hostname", hostname);
 
 		callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, new JSONObject(ipInformation)));
 		return true;
@@ -123,16 +123,14 @@ public class networkinterface extends CordovaPlugin {
 			(ip >> 24 & 0xff)
 			);
 
-		String subnet = "";
+		String hostname = "";
 		try {
-			//InetAddress inetAddress = InetAddress.getByName(ipString);
-			//subnet = getIPv4Subnet(inetAddress);
 			InetAddress inetAddress = InetAddress.getLocalHost();
-			subnet = inetAddress.getHostName();
+			hostname = inetAddress.getHostName();
 		} catch (Exception e) {
 		}
 
-		return new String[]{ ipString, subnet };
+		return new String[]{ ipString, hostname };
 	}
 
 	private String[] getCarrierIPAddress() {
@@ -144,8 +142,8 @@ public class networkinterface extends CordovaPlugin {
 	          InetAddress inetAddress = enumIpAddr.nextElement();
 			   if (!inetAddress.isLoopbackAddress() && (!intf.getName().equals("wlan0")) && inetAddress instanceof Inet4Address) {
 				   String ipaddress = inetAddress.getHostAddress().toString();
-				   String subnet = getIPv4Subnet(inetAddress);
-				   return new String[]{ ipaddress, subnet };
+				   String hostname = inetAddress.getHostName();
+				   return new String[]{ ipaddress, hostname };
 	          }
 	       }
 	    }
@@ -153,33 +151,5 @@ public class networkinterface extends CordovaPlugin {
 	     Log.e(TAG, "Exception in Get IP Address: " + ex.toString());
 	  }
 	  return new String[]{ null, null };
-	}
-
-	public static String getIPv4Subnet(InetAddress inetAddress) {
-		try {
-			NetworkInterface ni = NetworkInterface.getByInetAddress(inetAddress);
-			List<InterfaceAddress> intAddrs =  ni.getInterfaceAddresses();
-			for (InterfaceAddress ia : intAddrs) {
-				if (!ia.getAddress().isLoopbackAddress() && ia.getAddress() instanceof Inet4Address) {
-					return getIPv4SubnetFromNetPrefixLength(ia.getNetworkPrefixLength()).getHostAddress().toString();
-				}
-			}
-		} catch (Exception e) {
-		}
-		return "";
-	}
-
-	public static InetAddress getIPv4SubnetFromNetPrefixLength(int netPrefixLength) {
-		try {
-			int shift = (1<<31);
-			for (int i=netPrefixLength-1; i>0; i--) {
-				shift = (shift >> 1);
-			}
-			String subnet = Integer.toString((shift >> 24) & 255) + "." + Integer.toString((shift >> 16) & 255) + "." + Integer.toString((shift >> 8) & 255) + "." + Integer.toString(shift & 255);
-			return InetAddress.getByName(subnet);
-		}
-		catch(Exception e){
-		}
-		return null;
 	}
 }
