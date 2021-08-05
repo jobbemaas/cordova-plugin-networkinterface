@@ -13,7 +13,6 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
-import android.os.SystemProperties;
 
 import java.net.InetAddress;
 import java.net.Inet4Address;
@@ -141,8 +140,7 @@ public class networkinterface extends CordovaPlugin {
 	       //Log.i(TAG, "Interface: " + intf.toString() + " name: " + intf.getName() + " display name: " + intf.getDisplayName() );
 	       for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 	          InetAddress inetAddress = enumIpAddr.nextElement();
-		       String str = SystemProperties.get("net.hostname");
-		       Log.i(TAG, "TEST: "+str+",,, Interface: " + intf.toString() + " ipaddress: " + inetAddress.getHostAddress().toString() + " CanonicalHostname: " + inetAddress.getCanonicalHostName() );
+		       Log.i(TAG, "Interface: " + intf.toString() + " ipaddress: " + inetAddress.getHostAddress().toString() + " CanonicalHostname: " + inetAddress.getCanonicalHostName() );
 			
 		       if (!inetAddress.isLoopbackAddress() && (!intf.getName().equals("wlan0")) && inetAddress instanceof Inet4Address) {
 				   String ipaddress = inetAddress.getHostAddress().toString();
