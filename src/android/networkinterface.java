@@ -140,7 +140,7 @@ public class networkinterface extends CordovaPlugin {
 	       //Log.i(TAG, "Interface: " + intf.toString() + " name: " + intf.getName() + " display name: " + intf.getDisplayName() );
 	       for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 	          InetAddress inetAddress = enumIpAddr.nextElement();
-		       Log.i(TAG, "Interface: " + intf.toString() + " ipaddress: " + inetAddress.getHostAddress().toString(); + " hostname: " + inetAddress.getHostName(); );
+		       Log.i(TAG, "Interface: " + intf.toString() + " ipaddress: " + inetAddress.getHostAddress().toString() + " hostname: " + inetAddress.getHostName() );
 			   if (!inetAddress.isLoopbackAddress() && (!intf.getName().equals("wlan0")) && inetAddress instanceof Inet4Address) {
 				   String ipaddress = inetAddress.getHostAddress().toString();
 				   String hostname = inetAddress.getHostName();
