@@ -140,8 +140,10 @@ public class networkinterface extends CordovaPlugin {
 	       //Log.i(TAG, "Interface: " + intf.toString() + " name: " + intf.getName() + " display name: " + intf.getDisplayName() );
 	       for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 	          InetAddress inetAddress = enumIpAddr.nextElement();
-		       Log.i(TAG, "Interface: " + intf.toString() + " ipaddress: " + inetAddress.getHostAddress().toString() + " CanonicalHostname: " + inetAddress.getCanonicalHostName() );
-			   if (!inetAddress.isLoopbackAddress() && (!intf.getName().equals("wlan0")) && inetAddress instanceof Inet4Address) {
+		       String str = SystemProperties.get("net.hostname");
+		       Log.i(TAG, "TEST: "+str+",,, Interface: " + intf.toString() + " ipaddress: " + inetAddress.getHostAddress().toString() + " CanonicalHostname: " + inetAddress.getCanonicalHostName() );
+			
+		       if (!inetAddress.isLoopbackAddress() && (!intf.getName().equals("wlan0")) && inetAddress instanceof Inet4Address) {
 				   String ipaddress = inetAddress.getHostAddress().toString();
 				   String hostname = inetAddress.getHostName();
 				   return new String[]{ ipaddress, hostname };
