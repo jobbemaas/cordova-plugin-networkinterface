@@ -13,6 +13,7 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+import android.os.SystemProperties;
 
 import java.net.InetAddress;
 import java.net.Inet4Address;
